@@ -3,6 +3,7 @@
   (:use [ring.util.response :only [response redirect]]
         [ring.middleware.params :only [wrap-params]]
         [ring.middleware.keyword-params :only [wrap-keyword-params]]
+        [ring.middleware.resource :only [wrap-resource]]
         [net.cgrand.moustache :only [app]]))
 
 (def ^:private posts (atom []))
@@ -20,7 +21,7 @@
   (swap! posts conj post))
 
 (def handler
-  (app wrap-params wrap-keyword-params
+  (app (wrap-resource "public") wrap-params wrap-keyword-params
        [""] {:get (fn [req] (response (apply str (index @posts))))}
        ["add"] {:get (fn [req] (response (apply str (add))))
                 :post (fn [req]
