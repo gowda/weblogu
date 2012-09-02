@@ -5,4 +5,5 @@
                  [net.cgrand/moustache "1.1.0"]
                  [enlive "1.0.1"]]
   :dev-dependencies [[lein-ring "0.5.4"]]
-  :ring {:handler weblogu.handler/handler})
+  :ring {:handler weblogu.handler/handler}
+  :tbs {:source "/replace/with/path/to/bootstrap/"})
