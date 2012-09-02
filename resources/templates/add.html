@@ -1,9 +1,54 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+                                             charset=UTF-8">
+
+    <title id="title">Weblogu - Add New Blog</title>
+
+    <link href="/css/bootstrap.css" type="text/css" rel="stylesheet"
+    />
+  </head>
+
   <body>
-    <form action="/add" method="POST">
-      <input type="text" name="title"></input>
-      <textarea name="body"></textarea>
-      <input type="submit" value="submit"></input>
-    </form>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">Weblogu</a>
+          <ul class="nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/add">Add New</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="hero-unit">
+        <form class="form-horizontal" action="/add" method="POST">
+          <fieldset>
+            <div class="control-group">
+              <label class="control-label" for="title">Title</label>
+              <div class="controls">
+                <input class="input-xlarge" type="text" name="title"></input>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="body">Body</label>
+              <div class="controls">
+                <textarea class="span6 input-xlarge" rows="8" name="body"></textarea>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="controls">
+                <button class="btn btn-primary" type="submit"
+                        name="submit">Submit</button>
+                <a class="btn btn-inverse" href="/" type="submit">Cancel</a>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
