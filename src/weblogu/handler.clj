@@ -20,8 +20,15 @@
 
 (enlive/defsnippet add "templates/add.html" [:div#add] [])
 
+(defn save-posts []
+  (spit "posts.db" (pr-str @posts)))
+
+(defn load-posts []
+  (swap! posts (fn [old new] new) (read-string (slurp "posts.db"))))
+
 (defn add-post [{:keys [title body] :as post}]
-  (swap! posts conj post))
+  (swap! posts conj post)
+  (save-posts))
 
 (def handler
   (app (wrap-resource "public") wrap-params wrap-keyword-params
