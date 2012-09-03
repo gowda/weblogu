@@ -3,13 +3,16 @@
         [clojure.test]
         [ring.mock.request :only [request]]))
 
+(defn test-ring-success [response]
+  (is (map? response) "should return a map.")
+  (is (= (:status response) 200) "should have status code 200.")
+  (is (not (nil? (:body response))) "body should not be nil."))
+
 (deftest test-index
   (testing "/"
     (testing "GET method."
       (let [r (handler (request :get "/"))]
-        (is (map? r) "should return a map.")
-      (is (= (:status r) 200) "should have status code 200.")
-      (is (not (nil? (:body r))) "body should not be null.")))
+        (test-ring-success r)))
     (testing "POST method."
       (let [r (handler (request :post "/"))]
         (is (map? r) "should return a map.")
@@ -19,9 +22,7 @@
   (testing "/add"
     (testing "GET method."
       (let [r (handler (request :get "/add"))]
-        (is (map? r) "should return a map.")
-        (is (= (:status r) 200) "should have status code 200.")
-        (is (not (nil? (:body r))) "body should not be null.")))
+        (test-ring-success r)))
     (testing "POST method."
       (let [r (handler (request :post "/add"))]
         (is (map? r) "should return a map.")
@@ -32,9 +33,7 @@
   (testing "/list"
     (testing "GET method."
       (let [r (handler (request :get "/list"))]
-        (is (map? r) "should return a map.")
-        (is (= (:status r) 200) "should have status code 200.")
-        (is (not (nil? (:body r))) "body should not be null.")))
+        (test-ring-success r)))
     (testing "POST method."
       (let [r (handler (request :post "/list"))]
         (is (map? r) "should return a map.")
