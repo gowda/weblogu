@@ -12,18 +12,21 @@
   [post]
   [:li.title] (enlive/content (:title post)))
 
-(enlive/deftemplate index "templates/index.html" [posts]
+(enlive/deftemplate layout "templates/_layout.html" [content]
+  [:div#content-main] (enlive/content content))
+
+(enlive/defsnippet index "templates/index.html" [:div#index] [posts]
   [:div#posts] (enlive/content (map post posts)))
 
-(enlive/deftemplate add "templates/add.html" [])
+(enlive/defsnippet add "templates/add.html" [:div#add] [])
 
 (defn add-post [{:keys [title body] :as post}]
   (swap! posts conj post))
 
 (def handler
   (app (wrap-resource "public") wrap-params wrap-keyword-params
-       [""] {:get (fn [req] (response (apply str (index @posts))))}
-       ["add"] {:get (fn [req] (response (apply str (add))))
+       [""] {:get (fn [req] (response (apply str (layout (index @posts)))))}
+       ["add"] {:get (fn [req] (response (apply str (layout (add)))))
                 :post (fn [req]
                         (add-post (:params req))
                         (redirect "/"))}))
