@@ -1,18 +1,19 @@
 (ns weblogu.test.handler
   (:use [weblogu.handler]
-        [clojure.test]))
+        [clojure.test]
+        [ring.mock.request :only [request]]))
 
 (deftest test-index
-  (is (map? (handler {:uri "/" :request-method :get})))
-  (is (= (:status (handler {:uri "/" :request-method :get})) 200))
-  (is (not (nil? (:body (handler {:uri "/" :request-method :get})))))
-  (is (map? (handler {:uri "/" :request-method :post})))
-  (is (= (:status (handler {:uri "/" :request-method :post})) 405)))
+  (is (map? (handler (request :get "/"))))
+  (is (= (:status (handler (request :get "/")) 200)))
+  (is (not (nil? (:body (handler (request :get "/"))))))
+  (is (map? (handler (request :post "/"))))
+  (is (= (:status (handler (request :post "/"))) 405)))
 
 (deftest test-add
-  (is (map? (handler {:uri "/add" :request-method :get})))
-  (is (= (:status (handler {:uri "/add" :request-method :get})) 200))
-  (is (not (nil? (:body (handler {:uri "/add" :request-method :get})))))
-  (is (map? (handler {:uri "/add" :request-method :post})))
-  (is (= (:status (handler {:uri "/add" :request-method :post})) 302))
-  (is (map? (:headers (handler {:uri "/add" :request-method :post})))))
+  (is (map? (handler (request :get "/add"))))
+  (is (= (:status (handler (request :get "/add"))) 200))
+  (is (not (nil? (:body (handler (request :get "/add"))))))
+  (is (map? (handler (request :post "/add"))))
+  (is (= (:status (handler (request :post "/add"))) 302))
+  (is (map? (:headers (handler (request :post "/add"))))))
