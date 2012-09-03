@@ -37,3 +37,6 @@
                 :post (fn [req]
                         (add-post (:params req))
                         (redirect "/"))}))
+
+(defn init []
+  (load-posts))
