@@ -36,7 +36,8 @@
        ["add"] {:get (fn [req] (response (apply str (layout (add)))))
                 :post (fn [req]
                         (add-post (:params req))
-                        (redirect "/"))}))
+                        (redirect "/"))}
+       ["list"] {:get (fn [req] (response (apply str (layout (map post @posts)))))}))
 
 (defn init []
   (load-posts))
