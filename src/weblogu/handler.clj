@@ -18,7 +18,7 @@
 (enlive/defsnippet index "templates/index.html" [:div#index] [posts]
   [:div#posts] (enlive/content (map post posts)))
 
-(enlive/defsnippet add "templates/add.html" [:div#add] [])
+(enlive/defsnippet add "templates/add.html" [:form#add] [])
 
 (defn save-posts []
   (spit "posts.db" (pr-str @posts)))
