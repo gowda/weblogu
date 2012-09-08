@@ -1,15 +1,15 @@
-(ns weblogu.model)
+(ns weblogu.model
+  (:require [weblogu.pcl-simple-db :as sdb]))
 
-(def entries (atom []))
-
-(defn list-entries [] @entries)
+(defn list-entries []
+  (sdb/select {}))
 
 (defn save-entries []
-  (spit "posts.db" (pr-str @entries)))
+  (sdb/save-db "posts.db"))
 
 (defn load-entries []
-  (swap! entries (fn [old new] new) (read-string (slurp "posts.db"))))
+  (sdb/load-db "posts.db"))
 
 (defn add-entry [{:keys [title body] :as post}]
-  (swap! entries conj post)
+  (sdb/add-record post)
   (save-entries))
