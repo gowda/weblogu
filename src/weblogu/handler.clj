@@ -7,12 +7,18 @@
         [ring.middleware.resource :only [wrap-resource]]
         [net.cgrand.moustache :only [app]]))
 
+(defn wrap-only-params
+  "Ring middleware to pass only :params to the procedure called."
+  [handler]
+  (fn [req]
+    (handler (:params req))))
+
 (def handler
   (app (wrap-resource "public") wrap-params wrap-keyword-params
-       [""] {:get (fn [req] (blog/home-get (:params req)))}
-       ["add"] {:get (fn [req] (blog/add-get (:params req)))
-                :post (fn [req] (blog/add-post (:params req)))}
-       ["list"] {:get (fn [req] (blog/list-get (:params req)))}))
+       [""] {:get (wrap-only-params blog/home-get)}
+       ["add"] {:get (wrap-only-params blog/add-get)
+                :post (wrap-only-params blog/add-post)}
+       ["list"] {:get (wrap-only-params blog/list-get)}))
 
 (defn init []
   (load-entries))
